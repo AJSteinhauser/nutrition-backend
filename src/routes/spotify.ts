@@ -56,8 +56,12 @@ spotifyRoute.get('/callback', (req, res) => {
         axios.post(authOptions.url, authOptions.form, { headers: authOptions.headers }).then((response) => {
             //@ts-ignore
             req.session.access_token = response.data.access_token
-            res.send("Log in worked")
-        })
+            res.json(response.data)
+        }).catch((error) => {
+            //@ts-ignore
+            req.session.access_token = null
+            res.send("Log in failed")
+        });
     }
 })
 
